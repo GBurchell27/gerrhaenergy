@@ -29,10 +29,6 @@ const Navbar = () => {
 
           {/* Navigation Menu */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-gray-700 hover:text-green-600">
-              Home
-            </Link>
-
             {/* Products Dropdown */}
             <div className="relative group">
               <button
