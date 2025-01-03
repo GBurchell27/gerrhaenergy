@@ -7,11 +7,13 @@ export default function HeroSection() {
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 z-10" />
         <Image
-          src="/hero-bg.jpg"
+          src="/static/hero1.jpg"
           alt="Solar panels"
           fill
           className="object-cover"
           priority
+          quality={100}
+          sizes="100vw"
         />
       </div>
       <div className="relative z-20 container mx-auto px-4 text-center">
