@@ -30,11 +30,13 @@ const Navbar = () => {
           {/* Navigation Menu */}
           <div className="hidden md:flex items-center space-x-8">
             {/* Products Dropdown */}
-            <div className="relative group">
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsProductsOpen(true)}
+              onMouseLeave={() => setIsProductsOpen(false)}
+            >
               <button
-                className="text-gray-700 hover:text-green-600 flex items-center"
-                onMouseEnter={() => setIsProductsOpen(true)}
-                onMouseLeave={() => setIsProductsOpen(false)}
+                className="text-gray-700 hover:text-green-600 flex items-center py-2"
               >
                 Products
                 <svg className="ml-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -43,9 +45,7 @@ const Navbar = () => {
               </button>
               {isProductsOpen && (
                 <div
-                  className="absolute left-0 mt-2 w-60 bg-white rounded-md shadow-lg py-1"
-                  onMouseEnter={() => setIsProductsOpen(true)}
-                  onMouseLeave={() => setIsProductsOpen(false)}
+                  className="absolute left-0 mt-0 w-60 bg-white rounded-md shadow-lg py-1"
                 >
                   <Link href="/products/solar-panels" className="block px-4 py-2 text-gray-700 hover:bg-green-50">
                     Solar Panels
@@ -61,11 +61,13 @@ const Navbar = () => {
             </div>
 
             {/* Services Dropdown */}
-            <div className="relative group">
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsServicesOpen(true)}
+              onMouseLeave={() => setIsServicesOpen(false)}
+            >
               <button
-                className="text-gray-700 hover:text-green-600 flex items-center"
-                onMouseEnter={() => setIsServicesOpen(true)}
-                onMouseLeave={() => setIsServicesOpen(false)}
+                className="text-gray-700 hover:text-green-600 flex items-center py-2"
               >
                 Services
                 <svg className="ml-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -74,9 +76,7 @@ const Navbar = () => {
               </button>
               {isServicesOpen && (
                 <div
-                  className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1"
-                  onMouseEnter={() => setIsServicesOpen(true)}
-                  onMouseLeave={() => setIsServicesOpen(false)}
+                  className="absolute left-0 mt-0 w-48 bg-white rounded-md shadow-lg py-1"
                 >
                   <Link href="/services/installation" className="block px-4 py-2 text-gray-700 hover:bg-green-50">
                     Installation
