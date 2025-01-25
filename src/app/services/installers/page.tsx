@@ -1,6 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import InstallerBenefits from './components/installer-benefits'
+import InstallationProcess from './components/installation-process'
+import ProductHighlights from './components/product-highlights'
+import AdvancedTechnology from './components/advanced-technology'
+import Support from './components/support'
 
 const benefits = [
   {
@@ -37,114 +42,46 @@ export default function Page(): React.JSX.Element {
     <div className="flex flex-col min-h-screen pt-16">
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative h-[60vh] bg-gray-900">
+        <section className="relative h-[70vh] bg-gray-900">
           <Image
             src="/installers-hero.jpg"
-            alt="Installer Program"
+            alt="Professional Solar Installation"
             fill
-            className="object-cover opacity-70"
+            className="object-cover opacity-60"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent">
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/40">
             <div className="container mx-auto px-4 h-full flex items-center">
               <div className="max-w-2xl">
-                <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                  Join Our Installer Network
+                <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+                  Install with Confidence
                 </h1>
-                <p className="text-xl text-gray-200 mb-8">
-                  Become a certified installer and grow your business with us
+                <p className="text-xl md:text-2xl text-gray-200 mb-8">
+                  Efficient, Reliable, and Installer-Friendly Energy Solutions
                 </p>
-                <Link
-                  href="/contact"
-                  className="bg-green-600 text-white px-8 py-3 rounded-md inline-block hover:bg-green-700 transition-colors"
-                >
-                  Apply Now
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Benefits Section */}
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-12">Installer Benefits</h2>
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {benefits.map((benefit, index) => (
-                <div key={index} className="bg-gray-50 p-6 rounded-lg">
-                  <div className="mb-4">
-                    {benefit.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
-                  <p className="text-gray-600">{benefit.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Requirements Section */}
-        <section className="py-20 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-center mb-12">Program Requirements</h2>
-              <div className="grid md:grid-cols-2 gap-12">
-                <div className="space-y-6">
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                      <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold mb-2">Qualifications</h3>
-                      <p className="text-gray-600">Licensed electrical contractor with proven experience in solar installations.</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                      <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold mb-2">Training</h3>
-                      <p className="text-gray-600">Completion of our certification program and ongoing education.</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-white rounded-lg p-6 shadow-sm">
-                  <h3 className="text-xl font-semibold mb-6">Application Process</h3>
-                  <ol className="space-y-4">
-                    <li className="flex items-center">
-                      <span className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3 text-green-600 font-semibold">
-                        1
-                      </span>
-                      Submit application with credentials
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3 text-green-600 font-semibold">
-                        2
-                      </span>
-                      Complete technical assessment
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3 text-green-600 font-semibold">
-                        3
-                      </span>
-                      Attend training program
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3 text-green-600 font-semibold">
-                        4
-                      </span>
-                      Receive certification
-                    </li>
-                  </ol>
+                <div className="flex gap-4">
+                  <Link
+                    href="/contact"
+                    className="bg-green-600 text-white px-8 py-4 rounded-md text-lg font-semibold hover:bg-green-700 transition-colors"
+                  >
+                    Get Started Today
+                  </Link>
+                  <Link
+                    href="#learn-more"
+                    className="border-2 border-white text-white px-8 py-4 rounded-md text-lg font-semibold hover:bg-white/10 transition-colors"
+                  >
+                    Learn More
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
         </section>
+
+        <InstallationProcess />
+        <ProductHighlights />
+        <AdvancedTechnology />
+        <InstallerBenefits />
+        <Support />
       </main>
     </div>
   )
