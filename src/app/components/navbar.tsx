@@ -78,14 +78,14 @@ const Navbar = () => {
                 <div
                   className="absolute left-0 mt-0 w-48 bg-white rounded-md shadow-lg py-1"
                 >
-                  <Link href="/services/installation" className="block px-4 py-2 text-gray-700 hover:bg-green-50">
-                    Installation
+                  <Link href="/services/business" className="block px-4 py-2 text-gray-700 hover:bg-green-50">
+                    Business
                   </Link>
-                  <Link href="/services/training" className="block px-4 py-2 text-gray-700 hover:bg-green-50">
-                    Training
+                  <Link href="/services/installers" className="block px-4 py-2 text-gray-700 hover:bg-green-50">
+                    Installers
                   </Link>
-                  <Link href="/services/support" className="block px-4 py-2 text-gray-700 hover:bg-green-50">
-                    After-Sales Support
+                  <Link href="/services/partner" className="block px-4 py-2 text-gray-700 hover:bg-green-50">
+                    Partner
                   </Link>
                 </div>
               )}

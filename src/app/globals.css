@@ -18,7 +18,7 @@
   --glow-white: #f0f8ff;
 
   /* Semantic colors */
-  --background: var(--earth-beige);
+  --background: var(--glow-white);
   --foreground: var(--metallic-dark);
   --accent: var(--golden-light);
   --accent-secondary: var(--green-vivid);
