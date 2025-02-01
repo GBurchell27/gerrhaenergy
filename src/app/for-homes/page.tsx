@@ -19,32 +19,32 @@ type WizardStep = {
 const steps: WizardStep[] = [
   {
     id: 1,
-    title: 'House & Roof Information',
+    title: 'House & Roof',
     description: 'Tell us about your property'
   },
   {
     id: 2,
-    title: 'Photo Upload & Visualization',
+    title: 'Photo Upload',
     description: 'Upload photos of your property'
   },
   {
     id: 3,
-    title: 'Cable Routing & Aesthetics',
+    title: 'Cable Routing',
     description: 'Choose cable options and routing'
   },
   {
     id: 4,
-    title: 'Energy Consumption',
+    title: 'Energy Usage',
     description: 'Tell us about your energy usage'
   },
   {
     id: 5,
-    title: 'Battery Capacity',
+    title: 'Battery Size',
     description: 'Choose your storage capacity'
   },
   {
     id: 6,
-    title: 'Review & Reserve',
+    title: 'Review',
     description: 'Review your selections'
   }
 ];
@@ -82,6 +82,16 @@ type FormData = {
   batterySize: string;
   // Additional Notes
   notes: string;
+  // Contact Information
+  fullName?: string;
+  email?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  city?: string;
+  postcode?: string;
+  gdprConsent?: boolean;
+  energyVision: string;
+  energyVisionDetails: string;
 };
 
 export default function ForHomesPage() {
@@ -106,7 +116,16 @@ export default function ForHomesPage() {
     monthlyUsage: '',
     appliances: [],
     batterySize: '',
-    notes: ''
+    notes: '',
+    fullName: '',
+    email: '',
+    addressLine1: '',
+    addressLine2: '',
+    city: '',
+    postcode: '',
+    gdprConsent: false,
+    energyVision: '',
+    energyVisionDetails: '',
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -155,8 +174,49 @@ export default function ForHomesPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    
+    // Validate required fields
+    if (!formData.gdprConsent) {
+      alert('Please accept the GDPR consent to continue');
+      return;
+    }
+
+    if (!formData.fullName || !formData.email || !formData.addressLine1 || !formData.city || !formData.postcode) {
+      alert('Please fill in all required contact information');
+      return;
+    }
+
+    try {
+      // Show loading state
+      setIsSubmitting(true);
+
+      // Make API call to your backend
+      const response = await fetch('/api/submit-solar-request', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
+
+      // Handle success
+      alert('Thank you for your submission! We will contact you shortly.');
+      
+      // Optionally redirect to a thank you page
+      // router.push('/thank-you');
+      
+    } catch (error) {
+      // Handle error
+      console.error('Error submitting form:', error);
+      alert('Sorry, there was an error submitting your request. Please try again.');
+      
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const renderStepContent = () => {
@@ -329,9 +389,20 @@ export default function ForHomesPage() {
       case 3:
         return (
           <div className="space-y-6">
+            {/* Explanation about cable routing */}
+            <p className="text-sm text-gray-700 mb-4">
+              Energy harvested will need to travel down a cable to your storage unit.
+            </p>
+            <ul className="list-disc list-inside text-sm text-gray-700 mb-4">
+              <li>Pick a cable color (white, dark red, black, or grey) that suits your home's exterior.</li>
+              <li>Choose a path that's visually unobtrusive.</li>
+              <li>Take a photo of that side of your house, and if you can, use an image editor or phone markup to draw a line showing the cable's route—from the roof down to where the storage system will be.</li>
+            </ul>
+
+            {/* Cable Colour Selection */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Cable Color
+                Cable Colour
               </label>
               <div className="grid grid-cols-4 gap-4">
                 {['white', 'black', 'grey', 'dark-red'].map((color) => (
@@ -346,10 +417,11 @@ export default function ForHomesPage() {
                     }`}
                   >
                     <div
-                      className={`w-full h-8 rounded ${
-                        color === 'white'
-                          ? 'bg-white border border-gray-300'
-                          : `bg-${color === 'dark-red' ? 'red-800' : color}-500`
+                      className={`w-full h-8 rounded border border-gray-300 ${
+                        color === 'white' ? 'bg-white' :
+                        color === 'black' ? 'bg-black' :
+                        color === 'grey' ? 'bg-gray-500' :
+                        'bg-red-800' // for dark-red
                       }`}
                     />
                     <p className="text-sm text-center mt-2">
@@ -360,6 +432,7 @@ export default function ForHomesPage() {
               </div>
             </div>
             
+            {/* Cable Routing Preference */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Cable Routing Preference
@@ -417,35 +490,50 @@ export default function ForHomesPage() {
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Major Appliances
+            {/* New Energy Vision Section */}
+            <div className="mt-8">
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                My vision for using solar power is:
               </label>
-              <div className="grid md:grid-cols-3 gap-4">
+              <div className="space-y-4">
                 {[
-                  'Electric Oven',
-                  'Dishwasher',
-                  'Washing Machine',
-                  'Dryer',
-                  'Electric Vehicle',
-                  'Air Conditioning',
-                  'Heat Pump',
-                  'Pool Pump',
-                  'Electric Water Heater'
-                ].map((appliance) => (
-                  <div key={appliance} className="flex items-center">
-                    <input
-                      type="checkbox"
-                      id={appliance}
-                      checked={formData.appliances.includes(appliance)}
-                      onChange={() => handleApplianceToggle(appliance)}
-                      className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                    />
-                    <label htmlFor={appliance} className="ml-2 text-sm text-gray-700">
-                      {appliance}
-                    </label>
+                  'To harvest, store and enjoy solar energy at home, charge my EV and sell my surplus',
+                  'To harvest, store and enjoy solar energy at home',
+                  'To add energy storage to my existing solar panels to reduce my utility bills and/or sell my surplus'
+                ].map((vision) => (
+                  <div key={vision} className="flex items-start">
+                    <div className="flex items-center h-5">
+                      <input
+                        type="radio"
+                        name="energyVision"
+                        value={vision}
+                        checked={formData.energyVision === vision}
+                        onChange={(e) => setFormData(prev => ({
+                          ...prev,
+                          energyVision: e.target.value
+                        }))}
+                        className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300"
+                      />
+                    </div>
+                    <div className="ml-3">
+                      <label className="text-sm text-gray-700">{vision}</label>
+                    </div>
                   </div>
                 ))}
+              </div>
+
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Additional Details (Optional)
+                </label>
+                <textarea
+                  name="energyVisionDetails"
+                  value={formData.energyVisionDetails}
+                  onChange={handleInputChange}
+                  placeholder="Tell us more about your energy goals..."
+                  rows={3}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                />
               </div>
             </div>
           </div>
@@ -460,22 +548,22 @@ export default function ForHomesPage() {
             <div className="grid md:grid-cols-3 gap-6">
               {[
                 {
-                  size: '10kWh',
+                  size: '5kWh',
                   title: 'Starter',
                   description: 'Ideal for small households with basic energy needs',
-                  features: ['4-6 hours backup power', 'Suitable for 1-2 people', 'Basic appliance coverage']
+                  features: ['4-6 hours backup power', 'Suitable for 1-2 people', 'Basic appliance coverage', '5kWh battery']
+                },
+                {
+                  size: '10kWh',
+                  title: 'Standard',
+                  description: 'Perfect for medium-sized homes with moderate consumption',
+                  features: ['8-10 hours backup power', 'Suitable for 3-4 people', 'Full home coverage', 'Optional EV charging', '10kWh battery']
                 },
                 {
                   size: '15kWh',
                   title: 'Advanced',
-                  description: 'Perfect for medium-sized homes with moderate consumption',
-                  features: ['8-10 hours backup power', 'Suitable for 3-4 people', 'Full home coverage']
-                },
-                {
-                  size: '20kWh',
-                  title: 'Premium',
                   description: 'Best for large homes and energy trading',
-                  features: ['12+ hours backup power', 'Suitable for 5+ people', 'Energy trading ready']
+                  features: ['12+ hours backup power', 'Suitable for 4+ people', 'Full home coverage', 'With EV charging', 'Energy trading ready',  '15kWh battery']
                 }
               ].map((option) => (
                 <div
@@ -525,24 +613,104 @@ export default function ForHomesPage() {
           <div className="space-y-6">
             <div className="bg-gray-50 p-6 rounded-lg">
               <h3 className="text-lg font-semibold mb-4">System Summary</h3>
-              <dl className="grid grid-cols-2 gap-4">
+              <div className="space-y-6">
+                {/* House & Roof Information */}
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Construction Type</dt>
-                  <dd className="text-sm text-gray-900">{formData.constructionType}</dd>
+                  <h4 className="text-md font-medium text-gray-700 mb-3">House & Roof Details</h4>
+                  <dl className="grid grid-cols-2 gap-4">
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Construction Type</dt>
+                      <dd className="text-sm text-gray-900">{formData.constructionType}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Exterior Material</dt>
+                      <dd className="text-sm text-gray-900">{formData.exteriorMaterial}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Roof Tile Type</dt>
+                      <dd className="text-sm text-gray-900">{formData.roofTileType}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Roof Color</dt>
+                      <dd className="text-sm text-gray-900">{formData.roofColor}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Roof Style</dt>
+                      <dd className="text-sm text-gray-900">{formData.roofStyle}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Compass Direction</dt>
+                      <dd className="text-sm text-gray-900">{formData.compassDirection}</dd>
+                    </div>
+                  </dl>
                 </div>
+
+                {/* Photo Upload Summary */}
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Roof Type</dt>
-                  <dd className="text-sm text-gray-900">{formData.roofTileType}</dd>
+                  <h4 className="text-md font-medium text-gray-700 mb-3">Uploaded Photos</h4>
+                  <dl className="grid grid-cols-2 gap-4">
+                    {Object.entries(formData.photos).map(([view, file]) => (
+                      <div key={view}>
+                        <dt className="text-sm font-medium text-gray-500">
+                          {view.charAt(0).toUpperCase() + view.slice(1).replace('Side', ' Side')} View
+                        </dt>
+                        <dd className="text-sm text-gray-900">{file?.name || 'Not uploaded'}</dd>
+                      </div>
+                    ))}
+                  </dl>
                 </div>
+
+                {/* Cable Routing */}
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Battery Capacity</dt>
-                  <dd className="text-sm text-gray-900">{formData.batterySize}</dd>
+                  <h4 className="text-md font-medium text-gray-700 mb-3">Cable Configuration</h4>
+                  <dl className="grid grid-cols-2 gap-4">
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Cable Color</dt>
+                      <dd className="text-sm text-gray-900">{formData.cableColor}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Cable Route</dt>
+                      <dd className="text-sm text-gray-900">{formData.cableRoute}</dd>
+                    </div>
+                  </dl>
                 </div>
+
+                {/* Energy Usage */}
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Monthly Usage</dt>
-                  <dd className="text-sm text-gray-900">{formData.monthlyUsage} kWh</dd>
+                  <h4 className="text-md font-medium text-gray-700 mb-3">Energy Profile</h4>
+                  <dl className="grid grid-cols-2 gap-4">
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Household Size</dt>
+                      <dd className="text-sm text-gray-900">{formData.householdSize} {parseInt(formData.householdSize) === 1 ? 'Person' : 'People'}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Monthly Usage</dt>
+                      <dd className="text-sm text-gray-900">{formData.monthlyUsage} kWh</dd>
+                    </div>
+                    <div className="col-span-2">
+                      <dt className="text-sm font-medium text-gray-500">Energy Vision</dt>
+                      <dd className="text-sm text-gray-900">{formData.energyVision}</dd>
+                    </div>
+                    {formData.energyVisionDetails && (
+                      <div className="col-span-2">
+                        <dt className="text-sm font-medium text-gray-500">Additional Details</dt>
+                        <dd className="text-sm text-gray-900">{formData.energyVisionDetails}</dd>
+                      </div>
+                    )}
+                  </dl>
                 </div>
-              </dl>
+
+                {/* Battery System */}
+                <div>
+                  <h4 className="text-md font-medium text-gray-700 mb-3">Battery System</h4>
+                  <dl className="grid grid-cols-2 gap-4">
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500">Battery Capacity</dt>
+                      <dd className="text-sm text-gray-900">{formData.batterySize}</dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
             </div>
 
             <div>
@@ -558,6 +726,111 @@ export default function ForHomesPage() {
                 placeholder="Any specific requirements or questions?"
               />
             </div>
+
+            {/* Contact Information Section */}
+            <div className="border-t pt-6">
+              <h4 className="text-md font-medium text-gray-700 mb-4">Contact Information</h4>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    name="fullName"
+                    value={formData.fullName || ''}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                    placeholder="Enter your full name"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email || ''}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                    placeholder="Enter your email"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Home Address
+                </label>
+                <input
+                  type="text"
+                  name="addressLine1"
+                  value={formData.addressLine1 || ''}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 mb-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                  placeholder="Address Line 1"
+                  required
+                />
+                <input
+                  type="text"
+                  name="addressLine2"
+                  value={formData.addressLine2 || ''}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 mb-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                  placeholder="Address Line 2 (Optional)"
+                />
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    name="city"
+                    value={formData.city || ''}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                    placeholder="City"
+                    required
+                  />
+                  <input
+                    type="text"
+                    name="postcode"
+                    value={formData.postcode || ''}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                    placeholder="Postcode"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* GDPR Consent */}
+              <div className="mt-6">
+                <div className="flex items-start">
+                  <div className="flex items-center h-5">
+                    <input
+                      type="checkbox"
+                      name="gdprConsent"
+                      checked={formData.gdprConsent || false}
+                      onChange={(e) => setFormData(prev => ({
+                        ...prev,
+                        gdprConsent: e.target.checked
+                      }))}
+                      className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                      required
+                    />
+                  </div>
+                  <div className="ml-3 text-sm">
+                    <label className="font-medium text-gray-700">GDPR Consent</label>
+                    <p className="text-gray-500">
+                      I consent to having my personal data processed in accordance with GDPR guidelines. 
+                      We will only use your information to process your solar installation request 
+                      with our trusted installers and will never share it with third parties.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         );
 
@@ -567,11 +840,19 @@ export default function ForHomesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-gray-50 pt-24 pb-12">
       <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto">
+        {/* Title Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Design Your Home Energy System</h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Follow our simple step-by-step process to configure your perfect solar and battery system.
+          </p>
+        </div>
+
+        <div className="max-w-4xl mx-auto">
           {/* Progress Steps */}
-          <div className="mb-8">
+          <div className="mb-12">
             <div className="flex justify-between items-center">
               {steps.map((step) => (
                 <div
@@ -614,7 +895,7 @@ export default function ForHomesPage() {
           </div>
 
           {/* Form Content */}
-          <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8">
+          <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-8">
             <div className="mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
                 {steps[currentStep - 1].title}
