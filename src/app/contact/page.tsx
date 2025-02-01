@@ -1,12 +1,13 @@
-import ContactUs from '../components/ContactUs'
 import Image from 'next/image'
+import QuoteRequest from '@/app/components/QuoteRequest'
 
 export default function ContactPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-grow">
-        {/* Contact Form Section */}
-        <ContactUs />
+        {/* Quote Request Section */}
+        <QuoteRequest />
+        
         {/* Contact Information Grid */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">

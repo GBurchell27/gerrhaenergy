@@ -1,0 +1,59 @@
+1. Overall Flow & User Journey
+Build a step-by-step “wizard” form that guides homeowners through each stage.
+Keep the language simple, reassuring, and user-friendly.
+Emphasize visual choices over technical details.
+Present a running summary or “Your System So Far” to show progress and personalization.
+
+2. House & Roof Information
+Questions about construction: Offer dropdowns (e.g., newbuild, modern, pre-2000) and let users pick.
+Exterior colors & materials: Allow selection from typical options (brick, stone, cladding, etc.), plus a free-form field for “Other.”
+Roof details:
+Ask about tile type (slate, clay, etc.)
+Color (black, red, grey, other)
+Roof style (sloping/flat)
+Compass direction of main roof panels (prompt them to use a phone’s compass).
+House type: (terraced, semi-detached, detached) – show images if possible.
+Roof dimensions: Provide two methods:
+Exact (if user has plans).
+Approximate (if user can measure or estimate).
+
+3. Photo Upload & Visualization
+Create an upload function for front, rear, right side, and left side images.
+Include simple instructions on how to edit photos (draw a cable route, highlight areas).
+Ensure the user can doodle or mark the image with minimal friction—no advanced graphics tools needed, just basic line drawing.
+
+4. Cable Routing & Aesthetics
+Ask user to choose cable color (white, dark red, black, grey).
+Prompt user to select the least visually intrusive path for the cable (use positive language, e.g., “best visual path” or “most discreet path” instead of “least ugly”).
+Let them mark the cable route on their uploaded photo or indicate it via a quick sketch/drawing tool.
+
+5. Energy Consumption & Household Details
+Include a simple question about how many people live in the home.
+Prompt them for monthly/annual electricity usage (from their bill or an online account).
+If feasible, add direct links or buttons to popular utility sites to encourage easy data retrieval.
+Show a checklist of standard appliances (e.g., oven, fridge, washer, dryer, WiFi router, etc.) and let users add additional devices (e.g., electric vehicle).
+
+6. Battery Capacity Choice
+Offer a straightforward selection process (e.g., 10kWh or 15kWh).
+Reassure them that bigger capacity covers future needs (electric vehicle, more appliances).
+Mention potential to sell surplus energy back to the grid if current usage is low.
+
+7. Output: Recommended System & Online Purchase/Reservation
+After the questionnaire, generate a personalized list of recommended products (solar panels, tiles, wall panels, battery).
+Provide clear “Buy Now” or “Reserve” options for each item.
+Include a summary page so users can review all details before checkout/reservation.
+
+8. User Comfort & Reassurance
+Throughout, use friendly text and visuals to emphasize simplicity and easy decision-making.
+Defer complex, technical questions to later stages or hide them under “Advanced Options” so casual users aren’t overwhelmed.
+
+9. Technical Notes for Developer
+Use a responsive design that works well on mobile (since users might take photos on phones).
+Incorporate basic image-editing or annotation functionality.
+Possibly use interactive visual elements (compass direction, clickable house diagrams) for a more engaging experience.
+Store all user inputs in a structured format for further processing (e.g., database or form submission handling).
+Consider an option to save progress and continue later, so users aren’t forced to finish in one go.
+
+Key Takeaway:
+Make the homeowner feel they’re personally customizing a simple, visually appealing solar energy system. Keep steps clear, image-friendly, and low on technical jargon. Provide a final product list they can purchase or reserve online.
+
