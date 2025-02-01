@@ -19,7 +19,7 @@ export default function HeroSection() {
       <div className="relative z-20 container mx-auto px-4 text-center">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-8">
-            Power Your Home with Advanced Energy Solutions
+            Become an Energy Trader
           </h1>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
