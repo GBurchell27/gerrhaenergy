@@ -23,7 +23,7 @@ type WizardStep = {
 const steps: WizardStep[] = [
   {
     id: 1,
-    title: 'House & Roof',
+    title: 'Building & Roof',
     description: 'Tell us about your property'
   },
   {
@@ -399,10 +399,12 @@ export default function ForHomesPage() {
               Energy harvested will need to travel down a cable to your storage unit.
             </p>
             <ul className="list-disc list-inside text-sm text-gray-700 mb-4">
-              <li>Pick a cable color (white, dark red, black, or grey) that suits your home's exterior.</li>
+              <li>Pick a cable color (white, dark red, black, or grey) that suits your property's exterior.</li>
               <li>Choose a path that's visually unobtrusive.</li>
-              <li>Take a photo of that side of your house, and if you can, use an image editor or phone markup to draw a line showing the cable's route—from the roof down to where the storage system will be.</li>
+
+              <li>Take a photo of that side of your property, and if you can, use an image editor or phone markup to draw a line showing the cable's route—from the roof down to where the storage system will be.</li>
             </ul>
+
 
             {/* Cable Colour Selection */}
             <div>
@@ -463,10 +465,11 @@ export default function ForHomesPage() {
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Household Size
+                  Number of Employees
                 </label>
                 <select
                   name="householdSize"
+
                   value={formData.householdSize}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
@@ -502,10 +505,11 @@ export default function ForHomesPage() {
               </label>
               <div className="space-y-4">
                 {[
-                  'To harvest, store and enjoy solar energy at home, charge my EV and sell my surplus',
-                  'To harvest, store and enjoy solar energy at home',
+                  'To harvest, store and enjoy solar energy at my business, charge my EVs and sell my surplus',
+                  'To harvest, store and enjoy solar energy at my business',
                   'To add energy storage to my existing solar panels to reduce my utility bills and/or sell my surplus'
                 ].map((vision) => (
+
                   <div key={vision} className="flex items-start">
                     <div className="flex items-center h-5">
                       <input
@@ -555,20 +559,24 @@ export default function ForHomesPage() {
                 {
                   size: '5kWh',
                   title: 'Starter',
-                  description: 'Ideal for small households with basic energy needs',
-                  features: ['4-6 hours backup power', 'Suitable for 1-2 people', 'Basic appliance coverage', '5kWh battery']
+                  description: 'Ideal for small businesses with basic energy needs',
+                  features: ['4-6 hours backup power', 'Suitable for 1-2 people', 'Basic appliance coverage', '10kWh battery']
+
                 },
                 {
                   size: '10kWh',
                   title: 'Standard',
-                  description: 'Perfect for medium-sized homes with moderate consumption',
-                  features: ['8-10 hours backup power', 'Suitable for 3-4 people', 'Full home coverage', 'Optional EV charging', '10kWh battery']
+                  description: 'Perfect for medium-sized businesses with moderate consumption',
+                  features: ['8-10 hours backup power', 'Suitable for 3-4 people', 'Full business coverage', 'Optional EV charging', '15-25kWh battery']
+
+
                 },
                 {
                   size: '15kWh',
                   title: 'Advanced',
-                  description: 'Best for large homes and energy trading',
-                  features: ['12+ hours backup power', 'Suitable for 4+ people', 'Full home coverage', 'With EV charging', 'Energy trading ready',  '15kWh battery']
+                  description: 'Best for large businesses and energy trading',
+                  features: ['12+ hours backup power', 'Suitable for 4+ people', 'Full business coverage', 'With EV charging', 'Energy trading ready',  '30+ kWh battery']
+
                 }
               ].map((option) => (
                 <div
@@ -849,7 +857,7 @@ export default function ForHomesPage() {
       <div className="container mx-auto px-4">
         {/* Title Section */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Design Your Home Energy System</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Design Your Business Energy System</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Follow our simple step-by-step process to configure your perfect solar and battery system.
           </p>
