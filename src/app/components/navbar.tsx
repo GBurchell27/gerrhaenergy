@@ -46,7 +46,7 @@ const Navbar = () => {
               href="/contact"
               className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition duration-300"
             >
-              Get a Quote
+              Contact
             </Link>
           </div>
         </div>

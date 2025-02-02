@@ -1,4 +1,13 @@
 
+// I set this code up to test the email configuration.
+// It is not used in the project.
+// I can run it to test the email configuration.
+// I can also run it to troubleshoot the email configuration.
+// I can also run it to test the email configuration.
+// I can also run it to test the email configuration.
+
+
+
 
 const nodemailer = require('nodemailer');
 
