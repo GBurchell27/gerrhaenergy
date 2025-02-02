@@ -17,17 +17,24 @@ function generateEmailContent(formData: any) {
     <ul>
       <li>Construction Type: ${formData.constructionType}</li>
       <li>Exterior Material: ${formData.exteriorMaterial}</li>
-      <li>Roof Type: ${formData.roofTileType}</li>
+      <li>Roof Tile Type: ${formData.roofTileType}</li>
       <li>Roof Color: ${formData.roofColor}</li>
       <li>Roof Style: ${formData.roofStyle}</li>
       <li>Compass Direction: ${formData.compassDirection}</li>
-      <li>House Type: ${formData.houseType}</li>
+    </ul>
+
+    <h2>Cable Configuration</h2>
+    <ul>
+      <li>Cable Color: ${formData.cableColor}</li>
+      <li>Cable Route: ${formData.cableRoute}</li>
     </ul>
 
     <h2>Energy Details</h2>
     <ul>
       <li>Household Size: ${formData.householdSize}</li>
-      <li>Monthly Usage: ${formData.monthlyUsage}</li>
+      <li>Monthly Usage: ${formData.monthlyUsage} kWh</li>
+      <li>Energy Vision: ${formData.energyVision}</li>
+      ${formData.energyVisionDetails ? `<li>Vision Details: ${formData.energyVisionDetails}</li>` : ''}
       <li>Battery Size: ${formData.batterySize}</li>
     </ul>
 
@@ -73,24 +80,27 @@ export async function POST(request: Request) {
     console.log('Customer email sent:', customerEmail.messageId);
 
     // Send email to installer
+    //
     const installerEmail = await transporter.sendMail({
       from: process.env.MY_EMAIL_ADRESS,
       to: process.env.INSTALLER_EMAIL,
       subject: 'New Solar Installation Request',
       html: `
-        <h1>New Installation Request</h1>
+
+        <h1>New Installation Request - customer filled in the online form</h1>
         ${generateEmailContent(formData)}
       `
     });
     console.log('Installer email sent:', installerEmail.messageId);
 
     // Send email to owner
+    // 
     const ownerEmail = await transporter.sendMail({
       from: process.env.MY_EMAIL_ADRESS,
       to: process.env.OWNER_EMAIL,
       subject: 'New Solar Installation Lead',
       html: `
-        <h1>New Lead Alert</h1>
+        <h1>New Lead Alert - customer filled in the online form</h1>
         ${generateEmailContent(formData)}
       `
     });
