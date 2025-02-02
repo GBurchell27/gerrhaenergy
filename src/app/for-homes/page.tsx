@@ -16,6 +16,10 @@ type WizardStep = {
   description: string;
 };
 
+// This code defines the steps of a wizard form for homeowners who want to become energy traders.
+// It includes steps for providing house and roof information, uploading photos, choosing cable routing options,
+// specifying energy usage, selecting battery size, and reviewing the selections.
+// The steps are stored in an array of objects, each containing an id, title, and description.
 const steps: WizardStep[] = [
   {
     id: 1,
@@ -49,10 +53,14 @@ const steps: WizardStep[] = [
   }
 ];
 
-// Form data type
+
+// This code defines the form data type for the wizard form.
+// It includes fields for house and roof information, photo upload, cable routing, energy usage, battery size, and review.
+// The form data is stored in an object of type FormData.
 type FormData = {
   // House & Roof Information
   constructionType: string;
+
   exteriorMaterial: string;
   roofTileType: string;
   roofColor: string;
@@ -151,15 +159,6 @@ export default function ForHomesPage() {
     }
   };
 
-  const handleApplianceToggle = (appliance: string) => {
-    setFormData(prev => ({
-      ...prev,
-      appliances: prev.appliances.includes(appliance)
-        ? prev.appliances.filter(a => a !== appliance)
-        : [...prev.appliances, appliance]
-    }));
-  };
-
   const handleNext = () => {
     if (currentStep < steps.length) {
       setCurrentStep(prev => prev + 1);
@@ -172,9 +171,11 @@ export default function ForHomesPage() {
     }
   };
 
+// This code handles the submission of the form.
+// It validates the required fields, shows a loading state, and makes an API call to the backend.
+// It also handles the success and error cases of the API call.
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     // Validate required fields
     if (!formData.gdprConsent) {
       alert('Please accept the GDPR consent to continue');
@@ -191,9 +192,13 @@ export default function ForHomesPage() {
       setIsSubmitting(true);
 
       // Make API call to your backend
+      // TODO: Replace with actual API call
+      // This is a placeholder for the actual API call
+      // It will be replaced with the actual API call when the backend is implemented
       const response = await fetch('/api/submit-solar-request', {
         method: 'POST',
         headers: {
+
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
