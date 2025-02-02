@@ -47,15 +47,22 @@ function generateEmailContent(formData: any) {
 
 export async function POST(request: Request) {
   try {
+    console.log('Environment variables check:', {
+      hasEmail: !!process.env.MY_EMAIL_ADRESS,
+      hasPassword: !!process.env.MY_EMAIL_PASSWORD,
+      hasInstallerEmail: !!process.env.INSTALLER_EMAIL,
+      hasOwnerEmail: !!process.env.OWNER_EMAIL,
+    });
+
     const formData = await request.json();
+    console.log('Received form data:', formData);
 
     // Send email to customer
-    await transporter.sendMail({
+    const customerEmail = await transporter.sendMail({
       from: process.env.MY_EMAIL_ADRESS,
       to: formData.email,
       subject: 'Your Solar Installation Request - GerrhaEnergy',
       html: `
-
         <h1>Thank you for your solar installation request!</h1>
         <p>Dear ${formData.fullName},</p>
         <p>We have received your request and will review your requirements. Our team will contact you shortly to discuss the next steps.</p>
@@ -63,30 +70,31 @@ export async function POST(request: Request) {
         <p>Best regards,<br>GerrhaEnergy Team</p>
       `
     });
+    console.log('Customer email sent:', customerEmail.messageId);
 
     // Send email to installer
-    await transporter.sendMail({
+    const installerEmail = await transporter.sendMail({
       from: process.env.MY_EMAIL_ADRESS,
       to: process.env.INSTALLER_EMAIL,
       subject: 'New Solar Installation Request',
       html: `
-
         <h1>New Installation Request</h1>
         ${generateEmailContent(formData)}
       `
     });
+    console.log('Installer email sent:', installerEmail.messageId);
 
     // Send email to owner
-    await transporter.sendMail({
+    const ownerEmail = await transporter.sendMail({
       from: process.env.MY_EMAIL_ADRESS,
       to: process.env.OWNER_EMAIL,
       subject: 'New Solar Installation Lead',
       html: `
-
         <h1>New Lead Alert</h1>
         ${generateEmailContent(formData)}
       `
     });
+    console.log('Owner email sent:', ownerEmail.messageId);
 
     return NextResponse.json({ 
       success: true, 
@@ -94,9 +102,13 @@ export async function POST(request: Request) {
     });
 
   } catch (error) {
-    console.error('Error processing form:', error);
+    console.error('Server error:', error);
     return NextResponse.json(
-      { success: false, message: 'Error submitting form' },
+      { 
+        success: false, 
+        message: error instanceof Error ? error.message : 'Error submitting form',
+        details: error instanceof Error ? error.stack : undefined
+      },
       { status: 500 }
     );
   }

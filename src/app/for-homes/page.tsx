@@ -104,6 +104,7 @@ type FormData = {
 
 export default function ForHomesPage() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     constructionType: '',
     exteriorMaterial: '',
@@ -193,6 +194,8 @@ export default function ForHomesPage() {
     try {
       setIsSubmitting(true);
 
+      console.log('Submitting form data:', formData); // Debug log
+
       const response = await fetch('/api/submit-forhomes-form', {
         method: 'POST',
         headers: {
@@ -201,8 +204,8 @@ export default function ForHomesPage() {
         body: JSON.stringify(formData),
       });
 
-
       const data = await response.json();
+      console.log('Response data:', data);
 
       if (!response.ok) {
         throw new Error(data.message || 'Failed to submit form');
@@ -211,8 +214,8 @@ export default function ForHomesPage() {
       alert('Thank you for your submission! We will contact you shortly.');
       
     } catch (error) {
-      console.error('Error submitting form:', error);
-      alert('Sorry, there was an error submitting your request. Please try again.');
+      console.error('Form submission error:', error);
+      alert(`Error submitting form: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsSubmitting(false);
     }
