@@ -171,11 +171,14 @@ export default function ForHomesPage() {
     }
   };
 
+
+// *********** FORM SUBMISSION ***********
 // This code handles the submission of the form.
 // It validates the required fields, shows a loading state, and makes an API call to the backend.
 // It also handles the success and error cases of the API call.
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     // Validate required fields
     if (!formData.gdprConsent) {
       alert('Please accept the GDPR consent to continue');
@@ -188,41 +191,35 @@ export default function ForHomesPage() {
     }
 
     try {
-      // Show loading state
       setIsSubmitting(true);
 
-      // Make API call to your backend
-      // TODO: Replace with actual API call
-      // This is a placeholder for the actual API call
-      // It will be replaced with the actual API call when the backend is implemented
-      const response = await fetch('/api/submit-solar-request', {
+      const response = await fetch('/api/submit-forhomes-form', {
         method: 'POST',
         headers: {
-
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
 
+
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error('Failed to submit form');
+        throw new Error(data.message || 'Failed to submit form');
       }
 
-      // Handle success
       alert('Thank you for your submission! We will contact you shortly.');
       
-      // Optionally redirect to a thank you page
-      // router.push('/thank-you');
-      
     } catch (error) {
-      // Handle error
       console.error('Error submitting form:', error);
       alert('Sorry, there was an error submitting your request. Please try again.');
-      
     } finally {
       setIsSubmitting(false);
     }
   };
+
+
+  //
 
   const renderStepContent = () => {
     switch (currentStep) {
