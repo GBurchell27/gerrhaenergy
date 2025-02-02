@@ -34,9 +34,10 @@ function generateEmailContent(formData: any) {
       <li>Household Size: ${formData.householdSize}</li>
       <li>Monthly Usage: ${formData.monthlyUsage} kWh</li>
       <li>Energy Vision: ${formData.energyVision}</li>
-      ${formData.energyVisionDetails ? `<li>Vision Details: ${formData.energyVisionDetails}</li>` : ''}
+      <li>Vision Details: ${formData.energyVisionDetails}</li>
       <li>Battery Size: ${formData.batterySize}</li>
     </ul>
+
 
     <h2>Contact Information</h2>
     <ul>
@@ -64,10 +65,15 @@ export async function POST(request: Request) {
     const formData = await request.json();
     console.log('Received form data:', formData);
 
-    // Send email to customer
+
+    
+    // ******************** Send email to customer ********************
+    //
     const customerEmail = await transporter.sendMail({
       from: process.env.MY_EMAIL_ADRESS,
+
       to: formData.email,
+
       subject: 'Your Solar Installation Request - GerrhaEnergy',
       html: `
         <h1>Thank you for your solar installation request!</h1>
@@ -79,10 +85,13 @@ export async function POST(request: Request) {
     });
     console.log('Customer email sent:', customerEmail.messageId);
 
-    // Send email to installer
+
+
+    // ******************** Send email to installer ********************
     //
     const installerEmail = await transporter.sendMail({
       from: process.env.MY_EMAIL_ADRESS,
+
       to: process.env.INSTALLER_EMAIL,
       subject: 'New Solar Installation Request',
       html: `
@@ -93,10 +102,13 @@ export async function POST(request: Request) {
     });
     console.log('Installer email sent:', installerEmail.messageId);
 
-    // Send email to owner
-    // 
+
+
+    // ******************** Send email to owner ********************
+    //
     const ownerEmail = await transporter.sendMail({
       from: process.env.MY_EMAIL_ADRESS,
+
       to: process.env.OWNER_EMAIL,
       subject: 'New Solar Installation Lead',
       html: `
@@ -105,6 +117,8 @@ export async function POST(request: Request) {
       `
     });
     console.log('Owner email sent:', ownerEmail.messageId);
+
+
 
     return NextResponse.json({ 
       success: true, 
